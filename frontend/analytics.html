@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics &amp; Trends | Sea Water Monitoring System</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Chart.js for Luxury Interactive Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+    <!-- Custom Luxury Stylesheet -->
+    <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+
+    <div class="dashboard-wrapper">
+        <!-- TOP LUXURY HEADER -->
+        <header class="luxury-header">
+            <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
+                
+                <div class="d-flex align-items-center gap-3">
+                    <div class="luxury-brand-icon">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M2 12h20M2 12c3.5-3 6.5-3 10 0s6.5 3 10 0M2 18c3.5-3 6.5-3 10 0s6.5 3 10 0M2 6c3.5-3 6.5-3 10 0s6.5 3 10 0"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="main-title-luxury mb-0">SEA WATER MONITORING SYSTEM</h1>
+                        <span class="sub-title-luxury">Oceanographic Analytics &amp; Historical Telemetry</span>
+                    </div>
+                </div>
+
+                <!-- Luxury Multi-Page Navigation Bar -->
+                <nav class="luxury-nav-tabs">
+                    <a href="index.html" class="nav-tab-item"><span class="nav-tab-icon">🌊</span> Live Monitor</a>
+                    <a href="analytics.html" class="nav-tab-item active"><span class="nav-tab-icon">📈</span> Analytics</a>
+                    <a href="alerts.html" class="nav-tab-item"><span class="nav-tab-icon">🚨</span> Incident Logs</a>
+                    <a href="devices.html" class="nav-tab-item"><span class="nav-tab-icon">⚡</span> Hardware</a>
+                    <a href="settings.html" class="nav-tab-item"><span class="nav-tab-icon">⚙️</span> Configuration</a>
+                </nav>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-sm btn-luxury-refresh d-flex align-items-center gap-1" id="btnExportCsv">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                        </svg>
+                        <span>Export CSV</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- SUB HEADER / KPI TILES -->
+        <div class="container-fluid px-4 my-4">
+            <div class="row g-3">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="stat-kpi-card">
+                        <div class="kpi-icon-wrap" style="background: #fffbeb; color: #d97706;">🌡️</div>
+                        <div>
+                            <div class="kpi-title">Peak Sea Temperature</div>
+                            <div class="kpi-value" id="kpiPeakTemp">-- °C</div>
+                            <div class="kpi-subtext">Session Min: <strong id="kpiMinTemp">-- °C</strong></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="stat-kpi-card">
+                        <div class="kpi-icon-wrap" style="background: #eff6ff; color: #2563eb;">🌊</div>
+                        <div>
+                            <div class="kpi-title">Max Water Elevation</div>
+                            <div class="kpi-value" id="kpiMaxWater">--</div>
+                            <div class="kpi-subtext">Nominal baseline: <strong>0–500 scale</strong></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="stat-kpi-card">
+                        <div class="kpi-icon-wrap" style="background: #ecfdf5; color: #059669;">💧</div>
+                        <div>
+                            <div class="kpi-title">Mean Humidity Index</div>
+                            <div class="kpi-value" id="kpiAvgHumi">-- %</div>
+                            <div class="kpi-subtext">Optimal oceanic range (40–70%)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="stat-kpi-card">
+                        <div class="kpi-icon-wrap" style="background: #fdf2f8; color: #db2777;">🗑️</div>
+                        <div>
+                            <div class="kpi-title">Waste Events Recorded</div>
+                            <div class="kpi-value" id="kpiWasteEvents">0</div>
+                            <div class="kpi-subtext">Optical surface detection active</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN INTERACTIVE CHARTS -->
+        <main class="container-fluid px-4 mb-5">
+            <div class="row g-4">
+                
+                <!-- Main Historical Telemetry Curve -->
+                <div class="col-12 col-lg-8">
+                    <div class="chart-luxury-card h-100 d-flex flex-column">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between pb-3 mb-3 border-bottom gap-2">
+                            <div>
+                                <h3 class="h6 fw-bold mb-0 text-dark">Real-Time Environmental Telemetry Curves</h3>
+                                <p class="text-muted extra-small mb-0">Multi-channel sensor time-series streaming directly from Blynk Cloud</p>
+                            </div>
+                            <div class="d-flex align-items-center gap-1 bg-light p-1 rounded-pill border">
+                                <button class="btn btn-xs px-2 py-1 rounded-pill active btn-primary" id="btnFilterAll" style="font-size: 0.72rem;">All Metrics</button>
+                                <button class="btn btn-xs px-2 py-1 rounded-pill btn-light text-secondary" id="btnFilterTemp" style="font-size: 0.72rem;">Temperature</button>
+                                <button class="btn btn-xs px-2 py-1 rounded-pill btn-light text-secondary" id="btnFilterWater" style="font-size: 0.72rem;">Water Level</button>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 320px; width: 100%;">
+                            <canvas id="multiTelemetryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Water Quality Distribution & Correlation -->
+                <div class="col-12 col-lg-4">
+                    <div class="chart-luxury-card h-100 d-flex flex-column">
+                        <div class="pb-3 mb-3 border-bottom">
+                            <h3 class="h6 fw-bold mb-0 text-dark">Sensor Distribution Profile</h3>
+                            <p class="text-muted extra-small mb-0">Live sensor proportional range allocation</p>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center" style="position: relative; height: 260px;">
+                            <canvas id="distributionDoughnutChart"></canvas>
+                        </div>
+                        <div class="mt-auto pt-3 border-top d-flex justify-content-around text-center extra-small text-muted font-monospace">
+                            <div>Temp: <strong class="text-primary" id="distTemp">--</strong></div>
+                            <div>Humidity: <strong class="text-success" id="distHumi">--</strong></div>
+                            <div>Water: <strong class="text-info" id="distWater">--</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="mt-auto py-3 border-top bg-white bg-opacity-75 text-muted small text-center">
+            <div class="container-fluid px-4 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <div>
+                    <span>Sea Water Monitoring System &bull; Executive Analytics Suite</span>
+                </div>
+                <div>
+                    <span class="font-monospace text-primary">Live IoT Analytics &bull; Port 3000 / 8080</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Analytics Page Script -->
+    <script>
+        (function() {
+            const telemetryHistory = [];
+            const MAX_POINTS = 30;
+
+            let peakTemp = -Infinity;
+            let minTemp = Infinity;
+            let maxWater = -Infinity;
+            let humiSum = 0;
+            let readingsCount = 0;
+            let wasteEventsCount = 0;
+
+            const ctxLine = document.getElementById('multiTelemetryChart').getContext('2d');
+            const ctxDoughnut = document.getElementById('distributionDoughnutChart').getContext('2d');
+
+            const lineChart = new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Temperature (°C)',
+                            data: [],
+                            borderColor: '#0284c7',
+                            backgroundColor: 'rgba(2, 132, 199, 0.08)',
+                            borderWidth: 2.2,
+                            tension: 0.35,
+                            fill: true,
+                            pointRadius: 2.5
+                        },
+                        {
+                            label: 'Humidity (%)',
+                            data: [],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.08)',
+                            borderWidth: 2.2,
+                            tension: 0.35,
+                            fill: true,
+                            pointRadius: 2.5
+                        },
+                        {
+                            label: 'Water Level (x0.2 scaled)',
+                            data: [],
+                            borderColor: '#6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.08)',
+                            borderWidth: 2.2,
+                            tension: 0.35,
+                            fill: true,
+                            pointRadius: 2.5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12, font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' } } }
+                    },
+                    scales: {
+                        x: { grid: { color: 'rgba(226, 232, 240, 0.6)' }, ticks: { font: { family: 'JetBrains Mono', size: 10 } } },
+                        y: { grid: { color: 'rgba(226, 232, 240, 0.6)' }, ticks: { font: { family: 'JetBrains Mono', size: 10 } } }
+                    }
+                }
+            });
+
+            const doughnutChart = new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Temperature', 'Humidity', 'Water Level'],
+                    datasets: [{
+                        data: [25, 60, 40],
+                        backgroundColor: ['#0284c7', '#10b981', '#6366f1'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '72%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { family: 'Plus Jakarta Sans', size: 11 } } }
+                    }
+                }
+            });
+
+            async function syncAnalytics() {
+                try {
+                    const res = await fetch('/api/sensors');
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    
+                    const time = new Date().toLocaleTimeString();
+                    const temp = data.temperature !== null ? Number(data.temperature) : null;
+                    const humi = data.humidity !== null ? Number(data.humidity) : null;
+                    const water = data.water !== null ? Number(data.water) : null;
+                    const waste = data.wasteDetected === true;
+
+                    if (temp !== null) {
+                        if (temp > peakTemp) peakTemp = temp;
+                        if (temp < minTemp) minTemp = temp;
+                        document.getElementById('kpiPeakTemp').textContent = `${peakTemp.toFixed(1)} °C`;
+                        document.getElementById('kpiMinTemp').textContent = `${minTemp.toFixed(1)} °C`;
+                    }
+                    if (water !== null) {
+                        if (water > maxWater) maxWater = water;
+                        document.getElementById('kpiMaxWater').textContent = `${maxWater.toFixed(0)}`;
+                    }
+                    if (humi !== null) {
+                        humiSum += humi;
+                        readingsCount++;
+                        document.getElementById('kpiAvgHumi').textContent = `${(humiSum / readingsCount).toFixed(0)} %`;
+                    }
+                    if (waste) {
+                        wasteEventsCount++;
+                        document.getElementById('kpiWasteEvents').textContent = wasteEventsCount;
+                    }
+
+                    // Update Charts
+                    telemetryHistory.push({ time, temp, humi, water, waste: waste ? 'DETECTED' : 'CLEAR' });
+                    if (telemetryHistory.length > MAX_POINTS) telemetryHistory.shift();
+
+                    lineChart.data.labels = telemetryHistory.map(p => p.time);
+                    lineChart.data.datasets[0].data = telemetryHistory.map(p => p.temp);
+                    lineChart.data.datasets[1].data = telemetryHistory.map(p => p.humi);
+                    lineChart.data.datasets[2].data = telemetryHistory.map(p => p.water !== null ? p.water * 0.2 : null);
+                    lineChart.update('none');
+
+                    if (temp !== null && humi !== null && water !== null) {
+                        doughnutChart.data.datasets[0].data = [temp, humi, water * 0.2];
+                        doughnutChart.update('none');
+                        document.getElementById('distTemp').textContent = `${temp.toFixed(1)}°C`;
+                        document.getElementById('distHumi').textContent = `${humi.toFixed(0)}%`;
+                        document.getElementById('distWater').textContent = `${water.toFixed(0)}`;
+                    }
+
+                } catch (e) {
+                    console.debug('Analytics fetch error:', e);
+                }
+            }
+
+            document.getElementById('btnExportCsv').addEventListener('click', () => {
+                if (telemetryHistory.length === 0) {
+                    alert('No session telemetry captured yet to export.');
+                    return;
+                }
+                const csvRows = ['Time,Temperature_C,Humidity_Percent,Water_Level,Waste_Status'];
+                telemetryHistory.forEach(r => {
+                    csvRows.push(`${r.time},${r.temp || ''},${r.humi || ''},${r.water || ''},${r.waste}`);
+                });
+                const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `seawater_telemetry_${Date.now()}.csv`;
+                a.click();
+            });
+
+            syncAnalytics();
+            setInterval(syncAnalytics, 3000);
+        })();
+    </script>
+</body>
+</html>
+

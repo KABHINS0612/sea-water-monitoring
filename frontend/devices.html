@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware &amp; Network Health | Sea Water Monitoring System</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Luxury Stylesheet -->
+    <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+
+    <div class="dashboard-wrapper">
+        <!-- TOP LUXURY HEADER -->
+        <header class="luxury-header">
+            <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
+                
+                <div class="d-flex align-items-center gap-3">
+                    <div class="luxury-brand-icon">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M2 12h20M2 12c3.5-3 6.5-3 10 0s6.5 3 10 0M2 18c3.5-3 6.5-3 10 0s6.5 3 10 0M2 6c3.5-3 6.5-3 10 0s6.5 3 10 0"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="main-title-luxury mb-0">SEA WATER MONITORING SYSTEM</h1>
+                        <span class="sub-title-luxury">ESP32 Hardware Diagnostics &amp; Virtual Pin Topology</span>
+                    </div>
+                </div>
+
+                <!-- Luxury Multi-Page Navigation Bar -->
+                <nav class="luxury-nav-tabs">
+                    <a href="index.html" class="nav-tab-item"><span class="nav-tab-icon">🌊</span> Live Monitor</a>
+                    <a href="analytics.html" class="nav-tab-item"><span class="nav-tab-icon">📈</span> Analytics</a>
+                    <a href="alerts.html" class="nav-tab-item"><span class="nav-tab-icon">🚨</span> Incident Logs</a>
+                    <a href="devices.html" class="nav-tab-item active"><span class="nav-tab-icon">⚡</span> Hardware</a>
+                    <a href="settings.html" class="nav-tab-item"><span class="nav-tab-icon">⚙️</span> Configuration</a>
+                </nav>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-sm btn-luxury-refresh d-flex align-items-center gap-1" id="btnPingNode">
+                        <span>Ping Node</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- HARDWARE OVERVIEW -->
+        <div class="container-fluid px-4 my-4">
+            <div class="row g-4">
+                
+                <!-- Node Specifications Card -->
+                <div class="col-12 col-lg-5">
+                    <div class="luxury-card p-4 h-100">
+                        <div class="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom">
+                            <div>
+                                <h2 class="h6 fw-bold mb-0 text-dark">IoT Node Physical Architecture</h2>
+                                <p class="text-muted extra-small mb-0">Marine-grade environmental monitoring controller</p>
+                            </div>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle font-monospace">ONLINE ⚡</span>
+                        </div>
+
+                        <table class="table table-borderless small mb-0 font-monospace">
+                            <tbody>
+                                <tr class="border-bottom">
+                                    <td class="text-muted ps-0">Microcontroller:</td>
+                                    <td class="text-end fw-bold text-dark pe-0">ESP32-WROOM-32 (Xtensa Dual-Core 240MHz)</td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="text-muted ps-0">Firmware Build:</td>
+                                    <td class="text-end fw-bold text-dark pe-0">v2.4.0-Blynk-IoT</td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="text-muted ps-0">Wi-Fi Connection:</td>
+                                    <td class="text-end pe-0">
+                                        <span class="text-success fw-bold">802.11 b/g/n (2.4 GHz)</span>
+                                        <div class="wifi-signal-bars wifi-active ms-2">
+                                            <div class="wifi-bar bar-1"></div>
+                                            <div class="wifi-bar bar-2"></div>
+                                            <div class="wifi-bar bar-3"></div>
+                                            <div class="wifi-bar bar-4"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="text-muted ps-0">Signal Strength (RSSI):</td>
+                                    <td class="text-end fw-bold text-success pe-0">-56 dBm (Optimal)</td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="text-muted ps-0">Blynk Cloud Server:</td>
+                                    <td class="text-end fw-bold text-primary pe-0" id="diagServer">blynk.cloud</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted ps-0">REST Roundtrip Latency:</td>
+                                    <td class="text-end fw-bold text-primary pe-0" id="diagLatency">-- ms</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Virtual Pin Topology Table -->
+                <div class="col-12 col-lg-7">
+                    <div class="luxury-card p-4 h-100">
+                        <div class="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom">
+                            <div>
+                                <h2 class="h6 fw-bold mb-0 text-dark">Blynk Virtual Pin Mapping</h2>
+                                <p class="text-muted extra-small mb-0">Live sensor telemetry binding &amp; calibrated operating bounds</p>
+                            </div>
+                            <span class="badge bg-light text-secondary border font-monospace">4 Channels</span>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table-luxury">
+                                <thead>
+                                    <tr>
+                                        <th>Pin</th>
+                                        <th>Sensor Description</th>
+                                        <th>Target Range</th>
+                                        <th>Live Reading</th>
+                                        <th>Channel Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="luxury-pin-badge">V0</span></td>
+                                        <td><strong>Temperature (temp)</strong></td>
+                                        <td>0.0 &ndash; 200.0 °C</td>
+                                        <td><strong class="text-primary" id="pinLiveV0">-- °C</strong></td>
+                                        <td><span class="badge bg-success-subtle text-success">STREAMING</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="luxury-pin-badge">V1</span></td>
+                                        <td><strong>Waste Detection (waste)</strong></td>
+                                        <td>0 (Clear) / 1 (Detected)</td>
+                                        <td><strong id="pinLiveV1">--</strong></td>
+                                        <td><span class="badge bg-success-subtle text-success">STREAMING</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="luxury-pin-badge">V2</span></td>
+                                        <td><strong>Humidity (humi)</strong></td>
+                                        <td>0.0 &ndash; 100.0 %</td>
+                                        <td><strong class="text-success" id="pinLiveV2">-- %</strong></td>
+                                        <td><span class="badge bg-success-subtle text-success">STREAMING</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="luxury-pin-badge">V3</span></td>
+                                        <td><strong>Water Level (water)</strong></td>
+                                        <td>0.0 &ndash; 500.0 Level</td>
+                                        <td><strong class="text-info" id="pinLiveV3">--</strong></td>
+                                        <td><span class="badge bg-success-subtle text-success">STREAMING</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Diagnostic Telemetry Console -->
+                <div class="col-12">
+                    <div class="luxury-card p-4">
+                        <div class="d-flex align-items-center justify-content-between pb-3 mb-3 border-bottom">
+                            <div>
+                                <h3 class="h6 fw-bold mb-0 text-dark">Live Gateway Telemetry Stream</h3>
+                                <p class="text-muted extra-small mb-0">HTTP 200 REST transaction packets negotiated with Blynk IoT Cloud</p>
+                            </div>
+                            <span class="badge bg-dark text-light font-monospace">Auto-Scroll Active</span>
+                        </div>
+
+                        <div class="terminal-window" id="terminalWindow">
+                            <div class="terminal-line terminal-info">[SYSTEM BOOT] Sea Water Telemetry Engine Initialized.</div>
+                            <div class="terminal-line terminal-success">[BLYNK LINK] Connected to blynk.cloud on secure TLS channel.</div>
+                            <div class="terminal-line">[VIRTUAL PIN MAP] Registered V0 (temp), V1 (waste), V2 (humi), V3 (water).</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="mt-auto py-3 border-top bg-white bg-opacity-75 text-muted small text-center">
+            <div class="container-fluid px-4 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <div>
+                    <span>Sea Water Monitoring System &bull; Hardware Diagnostics &amp; Node Topology</span>
+                </div>
+                <div>
+                    <span class="font-monospace text-primary">ESP32 Hardware &bull; Port 3000 / 8080</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Diagnostics Script -->
+    <script>
+        (function() {
+            const terminal = document.getElementById('terminalWindow');
+
+            function addLogLine(text, type = '') {
+                const line = document.createElement('div');
+                line.className = `terminal-line ${type}`;
+                const time = new Date().toISOString().substring(11, 19);
+                line.textContent = `[${time}] ${text}`;
+                terminal.appendChild(line);
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+
+            async function refreshHardwareStatus() {
+                const start = performance.now();
+                try {
+                    const res = await fetch('/api/sensors');
+                    const latency = Math.round(performance.now() - start);
+                    document.getElementById('diagLatency').textContent = `${latency} ms`;
+
+                    if (res.ok) {
+                        const data = await res.json();
+                        document.getElementById('pinLiveV0').textContent = data.temperature !== null ? `${Number(data.temperature).toFixed(1)} °C` : '--';
+                        document.getElementById('pinLiveV1').textContent = data.wasteRawValue !== null ? String(data.wasteRawValue) : '--';
+                        document.getElementById('pinLiveV2').textContent = data.humidity !== null ? `${Math.round(data.humidity)} %` : '--';
+                        document.getElementById('pinLiveV3').textContent = data.water !== null ? `${Math.round(data.water)}` : '--';
+                        addLogLine(`GET /api/sensors -> HTTP 200 OK (${latency}ms) [V0:${data.temperature}, V1:${data.wasteRawValue}, V2:${data.humidity}, V3:${data.water}]`, 'terminal-success');
+                    }
+                } catch (e) {
+                    addLogLine(`Ping failed: ${e.message}`, 'terminal-warn');
+                }
+            }
+
+            document.getElementById('btnPingNode').addEventListener('click', () => {
+                addLogLine('User initiated manual hardware node ping...', 'terminal-info');
+                refreshHardwareStatus();
+            });
+
+            refreshHardwareStatus();
+            setInterval(refreshHardwareStatus, 3500);
+        })();
+    </script>
+</body>
+</html>
+
